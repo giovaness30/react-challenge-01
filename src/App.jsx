@@ -14,11 +14,14 @@ function App() {
   const handleUndo = (event)=> {
     event.stopPropagation()
 
+    if(pointList.length == 0) return
+
     const lastPoint = pointList[pointList.length -1]
 
     setUndoList((current)=> {
       return [...current, lastPoint]
     })
+
     setPointList((current)=> {
       let newArr = [...current].slice(0, -1)
       return newArr
@@ -27,6 +30,8 @@ function App() {
 
   const handleReUndo = (event)=> {
     event.stopPropagation()
+
+    if(undoList.length == 0) return
 
     const lastUndoPoint = undoList[undoList.length -1]
 
@@ -41,6 +46,7 @@ function App() {
     })
 
   }
+
   const handleNewPoint = (e) => {
     console.log(e);
     if(e.className == 'buttons') return
