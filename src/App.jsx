@@ -1,18 +1,15 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { Fragment, useState } from 'react'
 import './App.css'
 
 function App() {
   const [pointList, setPointList] = useState([])
   const [undoList, setUndoList] = useState([])
 
-  useEffect(()=>{
-    console.log(pointList);
-    console.log(undoList);
-  },[pointList])
+  //Evita que evento de click seja Chamado e criado ponto a onde não deveria.
+  const stopEvent = (event) => (event.stopPropagation())
 
   const handleUndo = (event)=> {
-    event.stopPropagation()
+    stopEvent(event)
 
     if(pointList.length == 0) return
 
@@ -29,7 +26,7 @@ function App() {
   }
 
   const handleReUndo = (event)=> {
-    event.stopPropagation()
+    stopEvent(event)
 
     if(undoList.length == 0) return
 
@@ -48,7 +45,6 @@ function App() {
   }
 
   const handleNewPoint = (e) => {
-    console.log(e);
     if(e.className == 'buttons') return
     setPointList((current)=> {
       const where = {pageX: e.pageX - 5, pageY: e.pageY-5}
@@ -57,6 +53,7 @@ function App() {
   }
 
   return (
+  <Fragment>
     <div className="app" 
     onClick={(e)=> handleNewPoint(e)}>
       <div className='content-buttons'>
@@ -67,10 +64,11 @@ function App() {
       {pointList.map((point, index)=>{
         return(
           <div key={index} style={{top:point.pageY, left: point.pageX}} className='point-item'></div>
-        )
-      })}
-      
+          )
+        })}
+    <div className='title-project' onClick={(e) => stopEvent(e)}>React Challenge #01</div>
     </div>
+  </Fragment>
   )
 }
 
